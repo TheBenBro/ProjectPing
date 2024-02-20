@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 289942005486350611}
   - component: {fileID: 4284138253382428697}
   - component: {fileID: 223936856631265053}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -134,6 +134,7 @@ MonoBehaviour:
   jumpPower_: 150
   maxAmountOfJumps_: 2
   shield_: {fileID: 2919224163887022676}
+  amountOfJumps_: 0
 --- !u!114 &4284138253382428697
 MonoBehaviour:
   m_ObjectHideFlags: 0
