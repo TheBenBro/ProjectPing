@@ -12,26 +12,27 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpPower_;
     [SerializeField] private int maxAmountOfJumps_;
     [SerializeField] private Transform shield_;
+    [SerializeField] private Animator playerAnimator;
+    [SerializeField] private BoxCollider2D hitCollider_;
+
 
     private Vector3 mousePosition_;
     public int amountOfJumps_;
     private float speed_;
-    private bool isGrounded_;
+    private bool hittingState_ = false;
 
 
+    public GameObject childObject;
     private void Awake()
     {
+        hittingState_ = false;
         amountOfJumps_ = maxAmountOfJumps_;
-    }
-    public void StartMovePlayer(InputAction.CallbackContext context)
-    {
-        Debug.Log(context.ReadValue<float>());
+        playerRigidbody_.centerOfMass = new Vector2(0,0);
     }
 
     public void OnMove(InputValue value)
     {
         speed_ = acceleration_ * value.Get<float>();
-        Debug.Log(value.Get<float>());
     }
 
     public void OnJump(InputValue value)
@@ -41,6 +42,27 @@ public class PlayerMovement : MonoBehaviour
             playerRigidbody_.AddForce(new Vector2(playerRigidbody_.velocity.normalized.x, jumpPower_), ForceMode2D.Impulse);
             amountOfJumps_--;
         }
+    }
+
+    public void OnHit(InputValue value)
+    {
+        playerAnimator.SetTrigger("HitTrigger");
+    }
+
+    public void EnableHit()
+    {
+        hittingState_ = true;
+        hitCollider_.enabled = true;
+    }
+    public void DisableHit()
+    {
+        hittingState_ = false;
+        hitCollider_.enabled = false;
+    }
+
+    public bool GetHitState()
+    {
+        return hittingState_;
     }
 
     private void Update()
@@ -65,12 +87,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!collision.gameObject.CompareTag("Ground")) return;
         amountOfJumps_ = maxAmountOfJumps_;
-        isGrounded_ = true;
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (!collision.gameObject.CompareTag("Ground")) return;
-        isGrounded_ = false;
     }
 }

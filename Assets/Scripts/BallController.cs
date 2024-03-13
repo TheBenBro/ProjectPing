@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BallController : MonoBehaviour
 {
-    [SerializeField] private Rigidbody2D ballRIgidBody2d_;
+    [SerializeField] private Rigidbody2D ballRigidBody2d_;
 
     [SerializeField] float speed_;
 
@@ -13,7 +13,7 @@ public class BallController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ballRIgidBody2d_.velocity = Random.insideUnitCircle.normalized * speed_;
+        ballRigidBody2d_.velocity = Random.insideUnitCircle.normalized * speed_;
     }
 
     // Update is called once per frame
@@ -21,8 +21,22 @@ public class BallController : MonoBehaviour
     {
         
     }
+
+    public void HitBallSoft(Vector2 direction, float hitStrength)
+    {
+        ballRigidBody2d_.velocity = direction * speed_;
+    }
+
+    public void HitBallHard(Vector2 direction, float hitStrength)
+    {
+        ballRigidBody2d_.velocity = direction * speed_ * hitStrength;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        ballRIgidBody2d_.velocity = (collision.GetContact(0).normal + ballRIgidBody2d_.velocity.normalized) * speed_;
+        if(collision.gameObject.layer == 3)
+        {
+            ballRigidBody2d_.velocity = (collision.GetContact(0).normal + ballRigidBody2d_.velocity.normalized).normalized * speed_;
+        }
     }
 }

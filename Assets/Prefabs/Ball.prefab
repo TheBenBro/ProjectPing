@@ -161,5 +161,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edad69f581d4bf544b965e6bfed934f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ballRIgidBody2d_: {fileID: 362190634185940705}
+  ballRigidBody2d_: {fileID: 362190634185940705}
   speed_: 5
